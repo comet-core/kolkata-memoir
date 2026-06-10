@@ -1,0 +1,92 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+const { frontmatter } = Astro.props;
+
+const titleParts = frontmatter.title.split(':');
+const dateStr = titleParts[0] ? titleParts[0].trim() : 'Archive';
+const headlineStr = titleParts[1] ? titleParts[1].trim() : frontmatter.title;
+
+// We use raw RGBA values so Astro physically animates the color change during navigation
+const glowColors: Record<string, string> = {
+    orange: 'rgba(234, 88, 12, 0.15)',       // Tailwind orange-600
+    purpleFade: 'rgba(112, 26, 117, 0.20)',  // Tailwind fuchsia-900
+    purple: 'rgba(147, 51, 234, 0.15)',      // Tailwind purple-600
+    ceremony: 'rgba(245, 158, 11, 0.20)',    // Tailwind amber-500
+    farewell: 'rgba(148, 163, 184, 0.15)',   // Tailwind slate-400
+    none: 'transparent'
+};
+
+const activeGlow = glowColors[frontmatter.theme] || glowColors.orange;
+---
+<html lang="en" class="bg-neutral-950">
+    <head>
+        <meta charset="utf-8" />
+        <title>{frontmatter.title}</title>
+        <ClientRouter />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    </head>
+    <body class="bg-neutral-950 text-neutral-300 antialiased selection:bg-white selection:text-black pb-32">
+        
+        <div class="max-w-3xl mx-auto px-6 py-12">
+            <nav class="mb-16 fade-in">
+                <a href="/" class="text-xs font-bold tracking-widest uppercase text-neutral-500 hover:text-white transition-colors duration-300 font-sans">
+                    ← Back to Archive
+                </a>
+            </nav>
+
+            <header class="mb-20 relative slide-up">
+				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-64 blur-[100px] rounded-full pointer-events-none -z-10 transition-colors duration-1000" style={`background-color: ${activeGlow};`}></div>
+				
+				<div class="text-[4rem] md:text-[6.5rem] font-black tracking-tighter text-neutral-800 uppercase leading-none font-sans select-none -ml-2 md:-ml-4 translate-y-8 md:translate-y-12 relative z-0">
+					{dateStr}
+				</div>
+				<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-500 relative z-10 font-serif leading-[1.1]">
+					{headlineStr}
+				</h1>
+			</header>
+
+            <article class="markdown-content fade-in-delayed">
+                <slot />
+            </article>
+
+            <div class="mt-24 pt-12 border-t border-neutral-900 fade-in-delayed flex flex-col md:flex-row justify-between items-center gap-8">
+                
+                <div class="w-full text-center md:text-left">
+                    {frontmatter.prevUrl && (
+                        <a href={frontmatter.prevUrl} class="group block cursor-pointer">
+                            <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block group-hover:text-white transition-colors duration-300 font-sans">
+                                ← Previous
+                            </span>
+                            <span class="text-3xl md:text-4xl font-serif text-neutral-400 group-hover:text-white transition-colors duration-500">
+                                {frontmatter.prevTitle}
+                            </span>
+                        </a>
+                    )}
+                </div>
+
+                <div class="w-full text-center md:text-right">
+                    {frontmatter.nextUrl && (
+                        <a href={frontmatter.nextUrl} class="group block cursor-pointer">
+                            <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2 block group-hover:text-white transition-colors duration-300 font-sans">
+                                Next →
+                            </span>
+                            <span class="text-3xl md:text-4xl font-serif text-neutral-400 group-hover:text-white transition-colors duration-500">
+                                {frontmatter.nextTitle}
+                            </span>
+                        </a>
+                    )}
+                </div>
+                
+            </div>
+        </div>
+    
+        <div id="lightbox" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-md px-4">
+            <button id="lightbox-close" class="absolute top-6 right-6 text-neutral-400 hover:text-white text-4xl cursor-pointer transition-colors z-50">&times;</button>
+            
+            <img id="lightbox-img" src="" alt="Expanded View" class="hidden max-h-[90vh] max-w-full object-contain rounded-sm shadow-2xl scale-95 transition-transform duration-300 relative z-40" />
+            
+            <video id="lightbox-video" src="" controls playsinline class="hidden max-h-[90vh] max-w-full object-contain rounded-sm shadow-2xl scale-95 transition-transform duration-300 relative z-40"></video>
+        </div>    
+    </body>
+</html>

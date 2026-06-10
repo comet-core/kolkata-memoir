@@ -1,0 +1,116 @@
+---
+// PhotoGrid.astro
+---
+
+<div class="photo-grid-container grid grid-cols-2 md:grid-cols-3 gap-4 my-10">
+    <slot />
+</div>
+
+
+
+<style>
+    @reference "../styles/global.css";
+
+    /* Groups the image/video and caption together */
+    .photo-grid-container :global(.photo-card) {
+        @apply flex flex-col items-center gap-3 w-full;
+    }
+
+    /* Standard images AND videos (Square) */
+    .photo-grid-container :global(img),
+    .photo-grid-container :global(video) {
+        @apply w-full aspect-square object-cover rounded-xl shadow-sm m-0 cursor-pointer transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02];
+    }
+
+    /* Wide images AND videos (Cinematic Span) */
+    .photo-grid-container :global(.photo-card.wide) {
+        @apply md:col-span-full mt-8 mb-4; 
+    }
+    .photo-grid-container :global(.photo-card.wide img),
+    .photo-grid-container :global(.photo-card.wide video) {
+        @apply aspect-video md:aspect-[21/9]; 
+    }
+
+    /* Portrait images AND videos (Vertical Phone Crop) */
+    .photo-grid-container :global(.photo-card.portrait img),
+    .photo-grid-container :global(.photo-card.portrait video) {
+        @apply aspect-[9/16] md:aspect-[3/4]; /* Tall crop that fits nicely in a grid column */
+    }
+
+    /* Silly Caption Styling */
+    .photo-grid-container :global(p) {
+        @apply w-full m-0 text-sm font-medium text-neutral-500 text-center italic font-serif opacity-80;
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        // Look for BOTH images and videos inside the grid
+        const mediaElements = document.querySelectorAll('.photo-grid-container img, .photo-grid-container video');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+        const lightboxVideo = document.getElementById('lightbox-video') as HTMLVideoElement;
+        const closeBtn = document.getElementById('lightbox-close');
+
+        if (!lightbox || !lightboxImg || !lightboxVideo) return; 
+
+        // Open lightbox when media is clicked
+        mediaElements.forEach(media => {
+            media.addEventListener('click', (e) => {
+                e.preventDefault(); // Stops the tiny video from playing inline
+                
+                const target = e.target as HTMLElement;
+                lightbox.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.classList.add('overflow-hidden');
+
+                if (target.tagName === 'IMG') {
+                    // Route to Image Player
+                    lightboxImg.src = (target as HTMLImageElement).src;
+                    lightboxImg.classList.remove('hidden');
+                    lightboxVideo.classList.add('hidden');
+                    setTimeout(() => lightboxImg.classList.replace('scale-95', 'scale-100'), 10);
+                } else if (target.tagName === 'VIDEO') {
+                    // Route to Video Player
+                    lightboxVideo.src = (target as HTMLVideoElement).src;
+                    lightboxVideo.classList.remove('hidden');
+                    lightboxImg.classList.add('hidden');
+                    setTimeout(() => {
+                        lightboxVideo.classList.replace('scale-95', 'scale-100');
+                        lightboxVideo.play(); // Auto-play when expanded
+                    }, 10);
+                }
+            });
+        });
+
+        // The function to cleanly close it
+        const closeLightbox = () => {
+            document.body.classList.remove('overflow-hidden');
+            lightbox.classList.add('opacity-0', 'pointer-events-none');
+            lightboxImg.classList.replace('scale-100', 'scale-95');
+            lightboxVideo.classList.replace('scale-100', 'scale-95');
+            
+            // Instantly mute/pause the video so the audio doesn't ghost
+            lightboxVideo.pause();
+
+            // Clear the sources after the fade-out animation finishes
+            setTimeout(() => { 
+                lightboxImg.src = ''; 
+                lightboxVideo.src = ''; 
+                lightboxImg.classList.add('hidden');
+                lightboxVideo.classList.add('hidden');
+            }, 300); 
+        };
+
+        closeBtn?.addEventListener('click', closeLightbox);
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !lightbox.classList.contains('pointer-events-none')) {
+                closeLightbox();
+            }
+        });
+    });
+</script>

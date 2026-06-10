@@ -1,0 +1,58 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+// A very soft, respectful white/gold glow for the tribute space
+const glowColor = 'rgba(255, 250, 240, 0.08)'; 
+---
+<html lang="en" class="bg-neutral-950">
+    <head>
+        <meta charset="utf-8" />
+        <title>In Remembrance</title>
+        <ClientRouter />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    </head>
+    <body class="bg-neutral-950 text-neutral-300 antialiased selection:bg-white selection:text-black pb-32">
+        
+        <div class="max-w-5xl mx-auto px-6 py-12">
+            <nav class="mb-24 fade-in flex justify-between items-center">
+                <a href="/june-4" class="text-xs font-bold tracking-widest uppercase text-neutral-500 hover:text-white transition-colors duration-300 font-sans">
+                    ← Back to Timeline
+                </a>
+                <a href="/" class="text-xs font-bold tracking-widest uppercase text-neutral-500 hover:text-white transition-colors duration-300 font-sans">
+                    Archive Home →
+                </a>
+            </nav>
+
+            <header class="mb-24 text-center relative slide-up">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-64 blur-[120px] rounded-full pointer-events-none -z-10 transition-colors duration-1000" style={`background-color: ${glowColor};`}></div>
+                
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-400 font-serif leading-[1.1] mb-6">
+                    In Remembrance
+                </h1>
+                <p class="text-lg md:text-xl font-light text-neutral-400 max-w-2xl mx-auto font-sans leading-relaxed">
+                    The reason we gathered, the reason we grieve, and the reason we found joy together.
+                </p>
+            </header>
+
+            <main class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 fade-in-delayed pb-12">
+                
+                <div class="break-inside-avoid relative group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=800&auto=format&fit=crop" alt="Family" class="w-full rounded-xl shadow-lg transition-transform duration-700 group-hover:scale-[1.02]" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl flex items-end p-6">
+                        <p class="text-white font-serif italic text-sm m-0">A caption for this specific memory.</p>
+                    </div>
+                </div>
+
+                <div class="break-inside-avoid relative group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=800&auto=format&fit=crop" alt="Gathering" class="w-full rounded-xl shadow-lg transition-transform duration-700 group-hover:scale-[1.02]" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl flex items-end p-6">
+                        <p class="text-white font-serif italic text-sm m-0">Another gentle memory.</p>
+                    </div>
+                </div>
+                
+                </main>
+        </div>
+
+    </body>
+</html>

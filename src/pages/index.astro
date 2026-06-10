@@ -1,17 +1,149 @@
 ---
+import '../styles/global.css';
 
+const rawPosts = import.meta.glob('./*.mdx', { eager: true });
+
+const getTitle = (slug: string) => {
+  const entry = Object.entries(rawPosts).find(([path]) => path.includes(slug));
+  if (!entry) return "[ADD TITLE]";
+  const mod = entry[1] as any;
+  return mod.frontmatter?.title?.split(': ')[1] ?? "[ADD TITLE]";
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="en" class="bg-neutral-950">
+    <head>
+        <meta charset="utf-8" />
+        <title>Kolkata Trip Memoir</title>
+    </head>
+    <body class="max-w-4xl mx-auto px-6 py-20 text-neutral-300 antialiased font-sans selection:bg-white selection:text-black">
+        
+        <header class="mb-24 mt-12">
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-600 mb-6 uppercase">
+                Kolkata <br/> Memoir.
+            </h1>
+            <p class="text-xl md:text-2xl font-light text-neutral-400 max-w-2xl leading-relaxed">
+                A visual documentation of gathering, grieving, and finding joy together. <br/> <span class="text-neutral-600 italic">May 22nd — June 4th</span>
+            </p>
+        </header>
+
+        <main>
+            <h2 class="text-sm font-bold tracking-widest uppercase text-neutral-500 mb-10 border-b border-neutral-800 pb-4">
+                The Archive
+            </h2>
+            
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
+                
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-22" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 22</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-22')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-23" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 23</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-23')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-24" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 24</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-24')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-25" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 25</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-25')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-26" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 26</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-26')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-27" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 27</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-27')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-28" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 28</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-28')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-29" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 29</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-29')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-30" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 30</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-30')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/may-31" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">May 31</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('may-31')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/june-1" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">June 1</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('june-1')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/june-2" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">June 2</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('june-2')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/june-3" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">June 3</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('june-3')}</span>
+                    </a>
+                </li>
+
+                <li class="border-b border-neutral-900 pb-4">
+                    <a href="/june-4" class="group flex items-baseline justify-between cursor-pointer">
+                        <span class="text-3xl md:text-4xl font-bold font-sans text-neutral-400 group-hover:text-white transition-colors duration-300">June 4</span>
+                        <span class="title tracking-widest text-neutral-500 uppercase">{getTitle('june-4')}</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="mt-24 pt-12 border-t border-neutral-800 text-center fade-in-delayed">
+                <a href="/remembrance" class="group inline-block cursor-pointer">
+                    <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-3 block group-hover:text-white transition-colors duration-300 font-sans">
+                        Epilogue
+                    </span>
+                    <span class="text-4xl md:text-5xl font-serif text-neutral-300 group-hover:text-white transition-colors duration-500 flex items-center justify-center gap-4">
+                        In Remembrance <span class="group-hover:translate-x-2 transition-transform duration-500">→</span>
+                    </span>
+                </a>
+            </div>
+        </main>
+
+    </body>
 </html>
